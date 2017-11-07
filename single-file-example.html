@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+
+    <script type="text/babel">
+
+    class Tasks extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          tasks: [
+            'buy milk',
+            'meet children',
+            'wash the car',
+            'clean houses'
+          ]
+        };
+      };
+
+      addRem = () => {
+        var value1 = this.refs.newTxt.value;
+        var mas = this.state.tasks;
+        if(value1=='')
+          mas.splice(mas.length, 0, "To do nothing! (:");
+        else
+          mas.push(value1);
+        this.setState({tasks: mas});
+      };
+
+      echoTask = (item, i) => {
+        return (
+          <Task children={item} />
+        );
+      };
+
+      render() {
+        return ( 
+          <div class="reminders"    >
+            <div class="todo-remindersList" >
+              <font  class="outputRem">
+                <input class="inputAddRem" ref="newTxt" />
+              </font>
+              <button onClick={this.addRem} className="mybtn btnRem">Добавить</button>
+            </div>
+            {this.state.tasks.map (this.echoTask)}          
+          </div>
+        );
+      };
+    }
+
+
+
+class Task extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      edit: false,
+    };
+    this.state = {
+      off: false,
+    };
+    this.state = {
+      text: " ",
+    };
+    this.state.text =this.props.children;
+  };
+
+  edit = () => {
+    this.setState ({edit: true});
+  };
+
+  remove = () => {
+    alert ("Нажата кнопка удалить");
+  };
+
+  save = () => {
+   var value = this.refs.newTxt.value;
+   this.state.text=value;
+ this.setState ({edit: false});
+  };
+
+   unoff = () => {
+    
+ if (this.state.off) {
+this.setState ({off: false});
+    } else {
+this.setState ({off: true});
+    }
+
+
+  
+
+  };
+  rendNorm = () => {
+    return (
+      <div class="todo-remindersList"  >
+        <input  onClick={this.unoff} type="checkbox"  />
+        <font onClick={this.edit} class="outputRem">
+          {this.state.text}   
+        </font>
+        <button onClick={this.edit} className="mybtn btnRem">Редактировать</button>
+      </div>
+    );
+  };
+
+  rendNormOff = () => {
+    return (
+      <div class="todo-remindersListOff"  >
+        <input  onClick={this.unoff} type="checkbox" checked="checked" />
+          <font onClick={this.edit} class="outputRem">
+            {this.state.text}   
+          </font>
+          <button onClick={this.edit} className="mybtn btnRem">Редактировать</button>
+      </div>
+    );
+  };
+  rendEdit = () => {
+    return (
+      <div class="todo-remindersList" >
+        <font  class="outputRem">
+          <input class="inputRem" ref="newTxt" defaultValue={this.state.text}/>
+        </font>
+        <button onClick={this.save} className="mybtn btnRem">Сохранить</button>
+      </div>
+    );
+  };
+  render() {
+    if (this.state.edit) {
+      return this.rendEdit ();
+    } else {
+      if (this.state.off) {
+      return this.rendNormOff ();
+    } else {
+      return this.rendNorm ();
+    }
+    }
+  }
+}
+
+
+
+
+const cExample = document.getElementById('example');
+
+ ReactDOM.render(
+ <div className="field">
+    <h2>test 1 </h2>
+    <div> Reminders (React JS)</div>
+    <div><br/>  </div>
+    <Tasks name="Alex" qual="2"/>
+ </div>
+        ,
+        cExample
+      );
+
+
+
+
+
+ </script>
+
+  </body>
+</html>
